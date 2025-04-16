@@ -34,6 +34,8 @@ data(Boston)
 
 # Convertir a tibble para una mejor visualización
 boston_tbl <- as_tibble(Boston)
+View(head(boston_tbl,1000)) # para abrir las primeras 1000 filas
+dim(boston_tbl)
 
 # Examinar las primeras filas del conjunto de datos
 print("Primeras filas del conjunto de datos:")
@@ -178,7 +180,7 @@ ggplot(boston_tbl, aes(x = lstat, y = medv)) +
 # Examinar la relación entre 'rm' y 'medv'
 ggplot(boston_tbl, aes(x = rm, y = medv)) +
   geom_point(alpha = 0.5) +
-  geom_smooth(method = "loess", color = "red") + #https://r-statistics.co/Loess-Regression-With-R.html
+  geom_smooth(method = "lm", color = "red") + #https://r-statistics.co/Loess-Regression-With-R.html
   labs(title = "Relación entre número de habitaciones y valor de viviendas",
        x = "Número promedio de habitaciones (rm)",
        y = "Valor mediano de viviendas en $1000 (medv)") +
@@ -342,8 +344,8 @@ identificar_outliers <- function(x) {
   q1 <- quantile(x, 0.25)
   q3 <- quantile(x, 0.75)
   iqr <- q3 - q1
-  limite_inferior <- q1 - 1.5 * iqr
-  limite_superior <- q3 + 1.5 * iqr
+  limite_inferior <- q1 - 3 * iqr
+  limite_superior <- q3 + 3 * iqr
   return(x < limite_inferior | x > limite_superior)
 }
 
@@ -383,8 +385,8 @@ ggplot(boston_con_outliers, aes(x = lstat, y = medv, color = es_outlier_medv)) +
 # =============================================================================
 
 DataExplorer::create_report(boston_tbl)
-
-
+# https://cran.r-project.org/web/packages/DataExplorer/vignettes/dataexplorer-intro.html
+create_report()
 # =============================================================================
 # FIN DEL SCRIPT
 # =============================================================================
