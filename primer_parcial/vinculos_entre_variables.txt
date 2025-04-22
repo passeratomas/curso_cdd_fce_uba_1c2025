@@ -1,0 +1,78 @@
+Entrar a uno de estos dos sitios: https://dbdiagram.io/d o https://databasediagram.com/app (en este seleccionar DBML arriba a la izquierda) y poner en la ventana del costado con códigos el siguiente código: 
+
+// Define las tablas y sus relaciones para el sistema de alquiler de casas temporales
+
+Table usuarios_alquilan {
+  id_alquila integer [pk]
+  sexo varchar
+  edad integer
+  provincia_nacimiento varchar
+  cantidad_alquileres integer
+  calificacion_media float
+  fecha_registro date
+  nivel_verificacion varchar
+  idiomas_hablados varchar
+  preferencia_ubicacion varchar
+}
+
+Table usuarios_arrendatarios {
+  id_arrendatario integer [pk]
+  sexo varchar
+  edad integer
+  provincia_nacimiento varchar
+  cantidad_viviendas_publicadas integer
+  calificacion_media float
+  fecha_registro date
+  nivel_verificacion varchar
+  es_superanfitrion boolean
+  tiempo_respuesta_hrs integer
+  anos_experiencia integer
+  politica_cancelacion varchar
+}
+
+Table casas {
+  id_casa integer [pk]
+  id_arrendatario integer [ref: > usuarios_arrendatarios.id_arrendatario]
+  tipo_vivienda varchar
+  provincia_ubicacion varchar
+  capacidad_maxima integer
+  numero_habitaciones integer
+  numero_banos integer
+  precio_base_noche float
+  categoria varchar
+  distancia_centro_km float
+  anio_construccion integer
+  amenities varchar
+  calificacion_limpieza float
+  calificacion_ubicacion float
+  calificacion_general float
+  mascotas_permitidas boolean
+  fumadores_permitidos boolean
+  eventos_permitidos boolean
+}
+
+Table transacciones {
+  id_transaccion integer [pk]
+  id_alquila integer [ref: > usuarios_alquilan.id_alquila]
+  id_arrendatario integer [ref: > usuarios_arrendatarios.id_arrendatario]
+  id_casa integer [ref: > casas.id_casa]
+  fecha_transaccion date
+  origen_reserva varchar
+}
+
+Table detalles_transacciones {
+  id_transaccion integer [pk, ref: - transacciones.id_transaccion]
+  cantidad_noches integer
+  precio_noche float
+  cantidad_personas integer
+  fecha_checkin date
+  fecha_checkout date
+  metodo_pago varchar
+  estado_transaccion varchar
+  descuento_aplicado integer
+  costo_limpieza float
+  costo_servicio float
+  impuestos float
+  calificacion_huesped float
+  calificacion_anfitrion float
+}
